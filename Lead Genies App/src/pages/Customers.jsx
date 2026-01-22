@@ -172,7 +172,7 @@ export default function Customers() {
                     variant="ghost"
                     size="icon"
                     onClick={() => navigate('/Wochenreporting')}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
+                    className="clay-button"
                     title="Reports"
                   >
                     <FileText className="w-4 h-4" />
@@ -181,7 +181,7 @@ export default function Customers() {
                     variant="ghost"
                     size="icon"
                     onClick={() => handleEdit(customer)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
+                    className="clay-button"
                   >
                     <Pencil className="w-4 h-4" />
                   </Button>

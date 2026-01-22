@@ -197,7 +197,7 @@ export default function Employees() {
                       variant="ghost"
                       size="icon"
                       onClick={() => navigate('/Courses')}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
+                      className="clay-button"
                       title="Schulungen"
                     >
                       <GraduationCap className="w-4 h-4" />
@@ -206,7 +206,7 @@ export default function Employees() {
                       variant="ghost"
                       size="icon"
                       onClick={() => handleEdit(employee)}
-                      className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
+                      className="clay-button"
                     >
                       <Pencil className="w-4 h-4" />
                     </Button>
