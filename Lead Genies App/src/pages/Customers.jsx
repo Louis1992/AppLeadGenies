@@ -6,10 +6,11 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Plus, Building2, Pencil } from 'lucide-react';
+import { Plus, Building2, Pencil, FileText } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { useNavigate } from 'react-router-dom';
 
 const CustomerDialog = ({ customer, onClose }) => {
   const queryClient = useQueryClient();
@@ -104,6 +105,7 @@ const CustomerDialog = ({ customer, onClose }) => {
 export default function Customers() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingCustomer, setEditingCustomer] = useState(null);
+  const navigate = useNavigate();
 
   const { data: customers = [], isLoading } = useQuery({
     queryKey: ['customers'],
@@ -159,20 +161,31 @@ export default function Customers() {
           {customers.map(customer => (
             <div key={customer.id} className="clay-card p-6 relative group">
               <div className="flex items-start justify-between mb-4">
-                <div 
+                <div
                   className="w-12 h-12 rounded-2xl flex items-center justify-center"
                   style={{ background: customer.requires_tech_expertise ? 'var(--clay-lavender)' : 'var(--clay-mint)' }}
                 >
                   <Building2 className="w-6 h-6 text-gray-700" />
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => handleEdit(customer)}
-                  className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
-                >
-                  <Pencil className="w-4 h-4" />
-                </Button>
+                <div className="flex gap-2">
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => navigate('/Wochenreporting')}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
+                    title="Reports"
+                  >
+                    <FileText className="w-4 h-4" />
+                  </Button>
+                  <Button
+                    variant="ghost"
+                    size="icon"
+                    onClick={() => handleEdit(customer)}
+                    className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
+                  >
+                    <Pencil className="w-4 h-4" />
+                  </Button>
+                </div>
               </div>
               
               <h3 className="font-bold text-lg text-gray-900 mb-4">{customer.name}</h3>

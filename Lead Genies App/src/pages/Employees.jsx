@@ -5,11 +5,12 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Switch } from '@/components/ui/switch';
-import { Plus, User, Pencil, Briefcase } from 'lucide-react';
+import { Plus, User, Pencil, Briefcase, GraduationCap } from 'lucide-react';
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { Textarea } from '@/components/ui/textarea';
+import { useNavigate } from 'react-router-dom';
 
 const EmployeeDialog = ({ employee, onClose }) => {
   const queryClient = useQueryClient();
@@ -115,6 +116,7 @@ const EmployeeDialog = ({ employee, onClose }) => {
 export default function Employees() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [editingEmployee, setEditingEmployee] = useState(null);
+  const navigate = useNavigate();
 
   const { data: employees = [], isLoading } = useQuery({
     queryKey: ['employees'],
@@ -184,20 +186,31 @@ export default function Employees() {
             return (
               <div key={employee.id} className="clay-card p-6 relative group">
                 <div className="flex items-start justify-between mb-4">
-                  <div 
+                  <div
                     className="w-12 h-12 rounded-2xl flex items-center justify-center"
                     style={{ background: statusColor }}
                   >
                     <User className="w-6 h-6 text-gray-700" />
                   </div>
-                  <Button
-                    variant="ghost"
-                    size="icon"
-                    onClick={() => handleEdit(employee)}
-                    className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
-                  >
-                    <Pencil className="w-4 h-4" />
-                  </Button>
+                  <div className="flex gap-2">
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => navigate('/Courses')}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
+                      title="Schulungen"
+                    >
+                      <GraduationCap className="w-4 h-4" />
+                    </Button>
+                    <Button
+                      variant="ghost"
+                      size="icon"
+                      onClick={() => handleEdit(employee)}
+                      className="opacity-0 group-hover:opacity-100 transition-opacity clay-button"
+                    >
+                      <Pencil className="w-4 h-4" />
+                    </Button>
+                  </div>
                 </div>
                 
                 <h3 className="font-bold text-lg text-gray-900 mb-2">{employee.name}</h3>
