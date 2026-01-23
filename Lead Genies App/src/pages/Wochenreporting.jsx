@@ -1,7 +1,7 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { UploadFile, ExtractDataFromUploadedFile } from "@/api/integrations";
+import { UploadFile } from "@/api/supabase-integrations";
 import { parse, format, min, max } from 'date-fns';
 import { de } from 'date-fns/locale';
 import { Button } from "@/components/ui/button";
@@ -10,6 +10,11 @@ import { AlertTriangle, Loader2 } from 'lucide-react';
 
 import ReportUpload from '../components/reporting/ReportUpload';
 import ReportDisplay from '../components/reporting/ReportDisplay';
+
+// IMPORTANT NOTE: CSV data extraction is currently disabled after migration to Supabase.
+// This feature requires AI integration (OpenAI, Claude, etc.) to extract structured data from CSV files.
+// For now, manual CSV parsing could be implemented, or this feature can be re-enabled by integrating
+// with an AI service. See SUPABASE_MIGRATION_PLAN.md for details.
 
 export default function Wochenreporting() {
   const [reportData, setReportData] = useState(null);
@@ -36,28 +41,38 @@ export default function Wochenreporting() {
           throw new Error(`Konnte das Datum aus dem Dateinamen "${file.name}" nicht extrahieren. Format muss sein: "Reporting_YYYY-MM-DD" (z.B. "Reporting_2025-11-05")`);
         }
 
-        // 2. Datei hochladen und Daten extrahieren
+        // 2. Datei hochladen
         const { file_url } = await UploadFile({ file });
-        // **KORREKTUR: Die korrekten Spaltennamen aus der CSV verwenden.**
-        const extractionResult = await ExtractDataFromUploadedFile({
-          file_url,
-          json_schema: { 
-            type: "array", 
-            items: { 
-              type: "object", 
-              properties: { 
-                "Ergebnis": { "type": "string" }
-              } 
-            } 
-          }
-        });
 
-        if (extractionResult.status !== 'success' || !extractionResult.output) {
-            throw new Error(`Fehler beim Analysieren der CSV-Datei "${file.name}". Stellen Sie sicher, dass sie die Spalte "Ergebnis" enthält.`);
-        }
-        
-        // 3. Tägliche Metriken analysieren
-        dailyReports.push(analyzeDailyData(extractionResult.output, reportDate));
+        // TODO: AI-based CSV extraction is not yet implemented after Supabase migration
+        // This requires integration with OpenAI/Claude API
+        // For now, throw an error to indicate this feature needs to be implemented
+        throw new Error(
+          'CSV-Datenextraktion ist nach der Supabase-Migration noch nicht verfügbar. ' +
+          'Diese Funktion benötigt eine AI-Integration (OpenAI, Claude, etc.). ' +
+          'Bitte kontaktieren Sie den Entwickler, um diese Funktion zu aktivieren.'
+        );
+
+        // ORIGINAL CODE (commented out for reference):
+        // const extractionResult = await ExtractDataFromUploadedFile({
+        //   file_url,
+        //   json_schema: {
+        //     type: "array",
+        //     items: {
+        //       type: "object",
+        //       properties: {
+        //         "Ergebnis": { "type": "string" }
+        //       }
+        //     }
+        //   }
+        // });
+        //
+        // if (extractionResult.status !== 'success' || !extractionResult.output) {
+        //     throw new Error(`Fehler beim Analysieren der CSV-Datei "${file.name}". Stellen Sie sicher, dass sie die Spalte "Ergebnis" enthält.`);
+        // }
+        //
+        // // 3. Tägliche Metriken analysieren
+        // dailyReports.push(analyzeDailyData(extractionResult.output, reportDate));
       }
 
       // 4. Alle Tagesberichte zu einem Wochenbericht zusammenfassen

@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { base44 } from '@/api/base44Client';
+import { base44 } from '@/api/entities';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { DragDropContext, Droppable, Draggable } from '@hello-pangea/dnd';
 import { Building2, User, X, AlertCircle, CheckCircle, ChevronRight } from 'lucide-react';

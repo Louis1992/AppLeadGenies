@@ -1,7 +1,7 @@
 import React from "react";
 import { Link, useLocation } from "react-router-dom";
 import { createPageUrl } from "@/utils";
-import { LayoutDashboard, Users, Building2, CalendarDays, GitBranch } from "lucide-react";
+import { LayoutDashboard, Users, Building2, CalendarDays, GitBranch, FileText, GraduationCap } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
@@ -41,6 +41,16 @@ const navigationItems = [
     title: "Zuordnungen",
     url: createPageUrl("Assignments"),
     icon: GitBranch,
+  },
+  {
+    title: "Reports",
+    url: createPageUrl("Wochenreporting"),
+    icon: FileText,
+  },
+  {
+    title: "Schulungen",
+    url: createPageUrl("Courses"),
+    icon: GraduationCap,
   },
 ];
 
