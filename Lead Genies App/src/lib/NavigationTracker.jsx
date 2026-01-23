@@ -1,42 +1,21 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import { useAuth } from './AuthContext';
-import { base44 } from '@/api/base44Client';
-import { pagesConfig } from '@/pages.config';
 
+// Simple navigation tracker for Supabase migration
+// Previously used Base44 auth and logging - now simplified
 export default function NavigationTracker() {
     const location = useLocation();
-    const { isAuthenticated } = useAuth();
-    const { Pages, mainPage } = pagesConfig;
-    const mainPageKey = mainPage ?? Object.keys(Pages)[0];
 
-    // Log user activity when navigating to a page
+    // Optional: Add analytics tracking here (Google Analytics, Plausible, etc.)
     useEffect(() => {
-        // Extract page name from pathname
-        const pathname = location.pathname;
-        let pageName;
-
-        if (pathname === '/' || pathname === '') {
-            pageName = mainPageKey;
-        } else {
-            // Remove leading slash and get the first segment
-            const pathSegment = pathname.replace(/^\//, '').split('/')[0];
-
-            // Try case-insensitive lookup in Pages config
-            const pageKeys = Object.keys(Pages);
-            const matchedKey = pageKeys.find(
-                key => key.toLowerCase() === pathSegment.toLowerCase()
-            );
-
-            pageName = matchedKey || null;
+        // Log page view to browser console for debugging
+        if (process.env.NODE_ENV === 'development') {
+            console.log('Navigation:', location.pathname);
         }
 
-        if (isAuthenticated && pageName) {
-            base44.appLogs.logUserInApp(pageName).catch(() => {
-                // Silently fail - logging shouldn't break the app
-            });
-        }
-    }, [location, isAuthenticated, Pages, mainPageKey]);
+        // TODO: Add analytics integration here if needed
+        // Example: window.gtag?.('event', 'page_view', { page_path: location.pathname });
+    }, [location]);
 
     return null;
 }

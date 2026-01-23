@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Sparkles, ChevronRight, User, Building2 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { base44 } from '@/api/base44Client';
+import { base44 } from '@/api/entities';
 
 export default function AIRecommendations({ weeklyReports, employees, customers, assignments }) {
   const [recommendations, setRecommendations] = useState(null);
